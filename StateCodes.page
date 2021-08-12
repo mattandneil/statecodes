@@ -1,0 +1,65 @@
+<apex:page action="{!action}"
+extensions="StateCodes"
+standardController="AsyncApexJob"
+setup="{!NOT CONTAINS($User.UiThemeDisplayed, '4')}"
+lightningStylesheets="{!CONTAINS($User.UiThemeDisplayed, '4')}">
+    
+    <style>
+        td.Failed {color: #c00;}
+        td.Completed {color: #090;}
+    </style>
+    
+    <apex:form id="form">
+        
+        <apex:sectionHeader title="State Codes"
+            help="https://github.com/mattandneil/statecodes"
+            description="{!IF(AsyncApexJob.CompletedDate == null, 'This tool initializes all ISO states by screen scraping the forms in setup.', LINKTO('« Back to start', $Page.StateCodes))}"
+        />
+        
+        <apex:pageMessages />
+    
+        <apex:pageBlock mode="edit">
+            <apex:pageBlockSection id="detail" columns="2" collapsible="false" title="Batch Job Status" rendered="{!Id != null}">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.AsyncApexJob.fields.Id.Label}" />
+                    <apex:outputField value="{!AsyncApexJob.Id}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.AsyncApexJob.fields.JobItemsProcessed.Label}" />
+                    <apex:outputField value="{!AsyncApexJob.JobItemsProcessed}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem dataStyleClass="{!AsyncApexJob.Status}">
+                    <apex:outputLabel value="{!$ObjectType.AsyncApexJob.fields.Status.Label}" />
+                    <apex:outputText value="{!AsyncApexJob.Status} {!AsyncApexJob.ExtendedStatus}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$ObjectType.AsyncApexJob.fields.TotalJobItems.Label}" />
+                    <apex:outputField value="{!AsyncApexJob.TotalJobItems}" />
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection rendered="{!Id == null}" columns="1" collapsible="false" title="State Codes">
+                <apex:pageBlockSectionItem >
+                    <apex:inputTextarea rows="15" style="width: 100%; font-size: 12px; font-family: monospace;" value="{!stateCodes}" />
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                <apex:actionStatus id="busy">
+                    <apex:facet name="stop"><apex:outputPanel >
+                        <apex:commandButton rendered="{!Id == null}" status="busy" action="{!startBatch}" value="Start Batch" reRender="form" />
+                        <apex:commandButton rendered="{!Id != null}" status="busy" action="{!abortBatch}" value="Abort Batch" reRender="form" disabled="{!AsyncApexJob.CompletedDate != null}" />
+                    </apex:outputPanel></apex:facet>
+                    <apex:facet name="start"><apex:outputPanel >
+                        <apex:image value="{!URLFOR('/img/loading.gif')}" />
+                    </apex:outputPanel></apex:facet>
+                </apex:actionStatus>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+        
+        <apex:actionPoller interval="5"
+            reRender="detail"
+            action="{!action}"
+            rendered="{!Id != null && AsyncApexJob.CompletedDate == null}"
+        />
+        
+    </apex:form>
+</apex:page>
