@@ -1,10 +1,10 @@
 <a href="https://githubsfdeploy.herokuapp.com?owner=mattandneil&amp;repo=statecodes&amp;ref=master">
-<img align="right" alt="Deploy to Salesforce" src="https://raw.githubusercontent.com/mattandneil/statecodes/master/README1.png">
+<img align="right" alt="Deploy to Salesforce" src="https://raw.githubusercontent.com/mattandneil/statecodes/master/README1.png" width="150" />
 </a> This tool initializes all ISO states by screen scraping the forms in setup.<br />(State and Country picklist values cannot be created any other way)
 
 # Install
 
-- Install the package: <a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t4J000000tIvu">/packaging/installPackage.apexp?p0=04t4J000000tIvu</a>
+- Install the package: <a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t4J000002JNrb">/packaging/installPackage.apexp?p0=04t4J000002JNrb</a>
 - Go to Setup > Installed Packages > State Codes, then click **Configure**
 - Review the included ISO state codes then click **Start Batch**
 
@@ -14,8 +14,9 @@
 
 Inspect the State and Country picklist values before, during, and after starting the batch:
 
-<img width="625" src="https://raw.githubusercontent.com/mattandneil/statecodes/master/README3.png" />
-<img width="625" src="https://raw.githubusercontent.com/mattandneil/statecodes/master/README4.png" />
+<img src="https://raw.githubusercontent.com/mattandneil/statecodes/master/README3.png" />
+
+<img src="https://raw.githubusercontent.com/mattandneil/statecodes/master/README4.png" />
 
 # Modify
 
@@ -42,4 +43,3 @@ After the package creates all the state codes and state names, the values must b
 8. Save changes, then zip up the exact contents of the folder again
 9. In Workbench, go to Migration > Deploy, and deploy the new zip file
 
-While we can't provide ad-hoc support for this code, please contact us with your company<br/>name and address if you need a warranty for its use and we will assist: [www.xbaf.com/contact](https://www.xbaf.com/contact)
